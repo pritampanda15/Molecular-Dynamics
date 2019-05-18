@@ -1,0 +1,42 @@
+#!/bin/bash
+
+Load modules
+module load gromacs/5.1.2
+
+#Input = pdb file  # Converting protein.pdb to gromacs input. Force field : OPLS, water type: spce
+# hydrogen bonds in the pdb file are ignored.
+
+echo -e "5\n1" | gmx pdb2gmx -f protein.pdb -o protein_processed.gro -water spce -ignh
+
+# Adding simulation box (cubic, min dist from wall 1.0 nm)
+gmx editconf -f protein_processed.gro -o protein_newbox.gro -c -d 0.5 -bt cubic
+
+# Adding water mols (water type: spc216)
+gmx solvate -cp protein_newbox.gro -cs spc216.gro -o protein_solv.gro -p topol.top
+
+# Adding ions (salt concentration = 0.1)
+gmx grompp -f ions.mdp -c protein_solv.gro -p topol.top -o ions.tpr
+
+echo -e "13\n1" | gmx genion -s ions.tpr -o protein_solv_ions.gro -p topol.top -neutral
+
+# Energy minimization of protein + water (min.mdp -> boundary = xyz)
+gmx grompp -f minim.mdp -c protein_solv_ions.gro -p topol.top -o em.tpr
+
+gmx mdrun -v -deffnm em
+
+
+# NVT Temperature control
+gmx grompp -f nvt.mdp -c em.gro -r em.gro -p topol.top -o nvt.tpr
+
+gmx mdrun -v -deffnm nvt
+
+# NPT Pressure control
+gmx grompp -f npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -p topol.top -o npt.tpr
+
+gmx mdrun -v -deffnm npt
+
+# Real MD 
+gmx grompp -f md.mdp -c npt.gro -t npt.cpt -p topol.top -o md_0_1.tpr
+
+
+gmx mdrun -v -deffnm md_0_1
