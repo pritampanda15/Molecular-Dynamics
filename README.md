@@ -8,3 +8,6 @@ Ligand topology generator:http://www.swissparam.ch/ http://davapc1.bioch.dundee.
 
 Here is a simple tutorial for topology file generation:
 https://nptel.ac.in/courses/104101002/downloads/lecture-notes/module4/chapter35.pdf
+
+Best tutorial to perform MD using gromacs:
+http://www.jyhuang.idv.tw/JYH_MDSimulation.html
