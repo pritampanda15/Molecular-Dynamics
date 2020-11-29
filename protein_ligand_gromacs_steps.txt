@@ -1,0 +1,95 @@
+Protein-Ligand Complex: Series of Commands to execute
+
+grep UNL clean.pdb > UNL.pdb
+gmx_mpi pdb2gmx -f clean.pdb -o protein_processed.gro
+Generate Ligand topology by extracting the cordinates from the complex using ATB or PRODRG if you prefer GROMOS96 forcefield
+gmx_mpi editconf -f UNL.pdb -o UNL.gro
+Copy the protein_processed.gro to complex.gro and copy the UNL.gro coordinates to the end of complex.gro.Make sure to update the number of atoms at the beginning.
+Open topol.top file and add 
+; Include ligand topology
+#include "UNL.ITP"
+[ molecules ]
+; Compound        #mols
+Protein_chain_A     1
+UNL                 1
+
+gmx_mpi editconf -f complex.gro -o newbox.gro -bt cubic -d 1.0
+gmx_mpi solvate -cp newbox.gro -cs spc216.gro -p topol.top -o solv.gro
+gmx_mpi grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr -maxwarn 2
+gmx_mpi genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
+gmx_mpi grompp -f em.mdp -c solv_ions.gro -p topol.top -o em.tpr -maxwarn 2
+
+
+interactive -A snic2020-1-40 -t 1:00:00 --reservation=devel -N 2
+
+SNIC gromacs run file for energy minimization
+#!/bin/bash
+#SBATCH --time=1:00:00
+#SBATCH  -N 4
+#SBATCH -c 4
+#SBATCH --account=snic2020-1-40
+export OMP_NUM_THREADS=4
+#SBATCH -J diptheria
+#SBATCH --exclusive
+#SBATCH --ntasks-per-node=32
+#gmx_mpi convert-tpr -s md_0_1.tpr -extend 100000 -o next.tpr
+module load GROMACS/2019.2-nsc1-gcc-7.3.0-bare 
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+	gmx_mpi mdrun -deffnm em
+	
+
+gmx_mpi make_ndx -f UNL.gro -o index_UNL.ndx
+0 & ! a H*
+q
+gmx_mpi genrestr -f UNL.gro -n index_UNL.ndx -o posre_UNL.itp -fc 1000 1000 1000
+3
+
+Then add this to the topol.top file
+
+; Ligand position restraints
+#ifdef POSRES
+#include "posre_UNL.itp"
+#endif
+
+gmx_mpi make_ndx -f em.gro -o index.ndx
+1|13
+q
+
+For NVT, NPT, MD
+#!/bin/bash
+#SBATCH --time=24:00:00
+#SBATCH  -N 4
+#SBATCH -c 4
+#SBATCH --account=snic2020-1-40
+export OMP_NUM_THREADS=4
+#SBATCH -J amyloid
+#SBATCH --exclusive
+#SBATCH --ntasks-per-node=32
+#gmx_mpi convert-tpr -s md_0_1.tpr -extend 100000 -o next.tpr
+module load GROMACS/2019.2-nsc1-gcc-7.3.0-bare 
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+	mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+        gmx_mpi grompp -f nvt.mdp -c em.gro -r em.gro -p topol.top -n index.ndx -o nvt.tpr -maxwarn 2
+	gmx_mpi mdrun -deffnm nvt
+	gmx_mpi grompp -f npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -p topol.top -n index.ndx -o npt.tpr -maxwarn 2
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+	gmx_mpi mdrun -deffnm npt
+	gmx_mpi grompp -f md.mdp -c npt.gro -t npt.cpt -p topol.top -n index.ndx -o md_0_1.tpr -maxwarn 2
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+	gmx_mpi mdrun -deffnm md_0_1
+
+gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_center.xtc -center -pbc mol -ur compact
+1
+0
+
+#To extract the first frame (t = 0 ns) of the trajectory, use trjconv -dump with the recentered trajectory:
+
+gmx_mpi trjconv -s md_0_1.tpr -f md_0_1_center.xtc -o start.pdb -dump 0
+
+
+
