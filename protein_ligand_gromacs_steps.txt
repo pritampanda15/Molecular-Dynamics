@@ -86,6 +86,14 @@ ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
 gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_center.xtc -center -pbc mol -ur compact
 1
 0
+gmx_mpi trjconv -s md_0_1.tpr -f md_0_1_center.xtc -o md_0_1_fit.xtc -fit rot+trans
+gmx_mpi rms -s em.tpr -f md_0_1_center.xtc -n index.ndx -tu ns -o rmsd_protein.xvg
+gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_noPBC.xtc -pbc mol -center
+gmx_mpi rms -s md_0_1.tpr -f md_0_1_noPBC.xtc -o rmsd.xvg -tu ns
+gmx_mpi rms -s em.tpr -f md_0_1_center.xtc -n index.ndx -tu ns -o rmsd_unl.xvg
+gmx_mpi make_ndx -f em.gro -n index.ndx
+gmx_mpi rms -s em.tpr -f md_0_1_center.xtc -n index.ndx -tu ns -o rmsd_unl.xvg
+
 
 #To extract the first frame (t = 0 ns) of the trajectory, use trjconv -dump with the recentered trajectory:
 
