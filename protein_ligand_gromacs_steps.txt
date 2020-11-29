@@ -55,6 +55,7 @@ Then add this to the topol.top file
 gmx_mpi make_ndx -f em.gro -o index.ndx
 1|13
 q
+gmx_mpi grompp -f nvt.mdp -c em.gro -r em.gro -p topol.top -n index.ndx -o nvt.tpr -maxwarn 2
 
 For NVT, NPT, MD
 #!/bin/bash
@@ -72,7 +73,6 @@ mpprun --pass="--map-by
 ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
 	mpprun --pass="--map-by
 ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
-        gmx_mpi grompp -f nvt.mdp -c em.gro -r em.gro -p topol.top -n index.ndx -o nvt.tpr -maxwarn 2
 	gmx_mpi mdrun -deffnm nvt
 	gmx_mpi grompp -f npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -p topol.top -n index.ndx -o npt.tpr -maxwarn 2
 mpprun --pass="--map-by
