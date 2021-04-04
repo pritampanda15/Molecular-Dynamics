@@ -40,3 +40,6 @@ gmx grompp -f md.mdp -c npt.gro -t npt.cpt -p topol.top -o md_0_1.tpr
 
 
 gmx mdrun -v -deffnm md_0_1
+
+#Analysis
+trjconv -f md.xtc -o _pro.gro -s md.tpr -n index.ndx -sep -center -skip 100
