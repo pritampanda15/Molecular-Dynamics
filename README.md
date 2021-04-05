@@ -3,6 +3,12 @@ Self explained tutorial for molecular dynamics simulation using gromacs
 
 This is a self explained tutorial for usage of gromacs v.5.0 above referred from http://www.mdtutorials.com/gmx/.
 
+Remember 500000 steps = 1 ns
+        5000000 steps = 10 ns
+       50000000 steps = 100 ns
+      250000000 steps = 250 ns
+      500000000 steps = 1 microsecond
+
 Lipid coordinates can be downloaded from https://people.ucalgary.ca/~tieleman/download.html
 
 Nanotube generator:http://turin.nss.udel.edu/research/tubegenonline.html
