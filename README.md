@@ -21,9 +21,7 @@ https://nptel.ac.in/courses/104101002/downloads/lecture-notes/module4/chapter35.
 Best tutorial to perform MD using gromacs:
 http://www.jyhuang.idv.tw/JYH_MDSimulation.html
 
-Note: For extending simulations:
-gmx_convert-tpr -s md_0_1.tpr -extend 100000 -o next.tpr
-gmx_mpi mdrun -s next.tpr -deffnm md_0_1 -cpi md_0_1_prev.cpt
+
 
 
 
