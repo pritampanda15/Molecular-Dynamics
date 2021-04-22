@@ -1,1 +1,2 @@
 gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_center.xtc -center -pbc mol -ur compact
+gmx_mpi trjconv -f md_0_1_noPBC.xtc -o _pro.gro -s md_0_1.tpr -n index.ndx -sep -center -skip 1000
