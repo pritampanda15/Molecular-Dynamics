@@ -26,3 +26,6 @@ for dir in *; do [ -d "$dir" ] && cp runextend.sh "$dir"; done
 
 #running sbatch from each folder
 for dir in *; do [ -d "$dir" ] && sbatch runextend.sh "$dir"; done
+
+#copying folder to each folder
+for dir in *; do [ -d "$dir" ] && cp -rf /path/folder "$dir" ; done
