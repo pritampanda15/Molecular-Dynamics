@@ -1,3 +1,10 @@
+#restart a simulation
+gmx_mpi mdrun -s md_0_1.tpr -cpi md_0_1.cpt -deffnm md_0_1 -append
+
+#extend a simulation
+gmx_mpi convert-tpr -s md_0_1.tpr -extend 100000 -o next.tpr
+gmx_mpi mdrun -s next.tpr -deffnm md_0_1 -append
+
 #noPBC
 gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_center.xtc -center -pbc mol -ur compact
 gmx_mpi trjconv -f md_0_1_noPBC.xtc -o _pro.gro -s md_0_1.tpr -n index.ndx -sep -center -skip 1000
