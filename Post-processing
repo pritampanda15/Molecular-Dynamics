@@ -19,3 +19,10 @@ gmx_mpi rms -s em.tpr -f md_0_1_center.xtc -n index.ndx -tu ns -o rmsd_unl.xvg
 Note: For extending simulations:
 gmx_convert-tpr -s md_0_1.tpr -extend 100000 -o next.tpr
 gmx_mpi mdrun -s next.tpr -deffnm md_0_1 -cpi md_0_1_prev.cpt
+
+#linux bash scripts
+#copying a file to multiple folders:
+for dir in *; do [ -d "$dir" ] && cp runextend.sh "$dir"; done
+
+#running sbatch from each folder
+for dir in *; do [ -d "$dir" ] && sbatch runextend.sh "$dir"; done
