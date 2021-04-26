@@ -32,7 +32,13 @@ gmx_mpi mdrun -s next.tpr -deffnm md_0_1 -cpi md_0_1_prev.cpt
 for dir in *; do [ -d "$dir" ] && cp runextend.sh "$dir"; done
 
 #running sbatch from each folder
-for dir in *; do [ -d "$dir" ] && sbatch runextend.sh "$dir"; done
+for D in ./*; do
+    if [ -d "$D" ]; then
+        cd "$D"
+        sbatch run.sh
+        cd ..
+    fi
+done
 
 #copying folder to each folder
 for dir in *; do [ -d "$dir" ] && cp -rf /path/folder "$dir" ; done
