@@ -19,7 +19,18 @@ scontrol show job jobid
 squeue -u x_pripa
 scancel jobid
 
+#script for running post-processing commands on each folder
+#!/bin/sh
 
+for D in ./*; do
+    if [ -d "$D" ]; then
+        cd "$D"
+        echo -e "1\n1" "0\n1" | gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_center.xtc -center -pbc mol -ur compact
+	echo -e "1\n1" "1\n1"| gmx_mpi trjconv -f md_0_1_center.xtc -o _pro.gro -s md_0_1.tpr -sep -center -skip 1000
+	echo -e "4\n1" "4\n1"gmx_mpi rms -s md_0_1.tpr -f md_0_1_noPBC.xtc -o rmsd.xvg -tu ns
+        cd ..
+    fi
+done
 
 #restart a simulation
 gmx_mpi mdrun -s md_0_1.tpr -cpi md_0_1.cpt -deffnm md_0_1 -append
