@@ -18,17 +18,17 @@ Remember to copy Charmm36-feb2021.ff forcefiled folder from MacKerell website.
 Then perform the commands from the MD tutorials (GROMACS/2020.4). I am performing customized inputs so my commands will be different than the normal ones (for cellulose layer). 
 
 1. gmx pdb2gmx -f crystal.pdb -o processed.gro -missing -i posre.itp
-2. gmx genrestr -f processed.gro -o crystal.itp
+2. gmx_mpi genrestr -f processed.gro -o crystal.itp
 3. Change in the topol file as 
 ; Include Position restraint file
 #ifdef POSRES_CRYSTAL
 #include "crystal.itp"
 #endif
-4. gmx editconf -f processed.gro -o newbox.gro -c -d 1.0 -bt cubic
-5. gmx solvate -cp newbox.gro -cs spc216.gro -o solv.gro -p topol.top
-6. gmx grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr
-7. gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
-9. gmx insert-molecules -f solv_ions.gro -ci unk.gro  -replace -nmol 20 (choose SOL) and update the topol.top file. (It will give out.gro)
+4. gmx_mpi editconf -f processed.gro -o newbox.gro -c -d 1.0 -bt cubic
+5. gmx_mpi solvate -cp newbox.gro -cs spc216.gro -o solv.gro -p topol.top
+6. gmx_mpi grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr
+7. gmx_mpi genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
+9. gmx_mpi insert-molecules -f solv_ions.gro -ci unk.gro  -replace -nmol 20 (choose SOL) and update the topol.top file. (It will give out.gro)
 10. Remember to include these two lines at the start and at the ened as
 ; Include forcefield parameters
 #include "./charmm36-feb2021.ff/forcefield.itp"
@@ -60,27 +60,30 @@ define= -DPOSRES_CRYSTAL as mentioned in the #ifdef POSRES
 You will get error to update the cordinates number of coordinates in coordinate file (out.gro, 138535),  does not match topology (topol.top, 138973) 
 Remember to substract 138973-138535 and divide it by 3. 
 
-11.gmx grompp -f em.mdp -c out.gro -r out.gro -p topol.top -o em.tpr -maxwarn -1
-12. gmx mdrun -v -deffnm em
+11.gmx_mpi grompp -f em.mdp -c out.gro -r out.gro -p topol.top -o em.tpr -maxwarn -1
 
-gmx make_ndx -f unk.gro -o index_unk.ndx
+#interactive -A snic2020-1-40 -t 1:00:00 --reservation=devel -N 2
+
+12. mpprun gmx_mpi mdrun -v -deffnm em
+
+gmx_mpi make_ndx -f unk.gro -o index_unk.ndx
 ...
  > 0 & ! a H*
  > q
 
-gmx make_ndx -f em.gro -o index.ndx
+gmx_mpi make_ndx -f em.gro -o index.ndx
 
 2|11
 
-13. gmx grompp -f step4.1_equilibration.mdp -o equil.tpr -c em.gro -r out.gro -p topol.top -n index.ndx -maxwarn -1
-14. gmx mdrun -deffnm equil
+13. gmx_mpi grompp -f step4.1_equilibration.mdp -o equil.tpr -c em.gro -r out.gro -p topol.top -n index.ndx -maxwarn -1
+14. gmx_mpi mdrun -v -deffnm equil
 
-15. gmx grompp -f step5_production.mdp -o md.tpr -c equil.gro -p topol.top -n index.ndx -maxwarn -1
-16. gmx mdrun -deffnm md
+15.gmx_mpi grompp -f step5_production.mdp -o md.tpr -c equil.gro -p topol.top -n index.ndx -maxwarn -1
+16. gmx_mpi mdrun -deffnm md
 
 
 Note: For extending simulations:
-gmx_convert-tpr -s md_0_1.tpr -extend 100000 -o next.tpr
+gmx_mpi convert-tpr -s md_0_1.tpr -extend 100000 -o next.tpr
 gmx_mpi mdrun -s next.tpr -deffnm md_0_1 -cpi md_0_1_prev.cpt
 
 
