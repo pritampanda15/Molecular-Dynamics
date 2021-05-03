@@ -28,8 +28,7 @@ Then perform the commands from the MD tutorials (GROMACS/2020.4). I am performin
 5. gmx solvate -cp newbox.gro -cs spc216.gro -o solv.gro -p topol.top
 6. gmx grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr
 7. gmx genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
-8. gmx make_ndx -f solv_ions.gro -o index.ndx
-9. gmx insert-molecules -f solv_ions.gro -ci unk.gro -n index.ndx -replace -nmol 20 (choose SOL) and update the topol.top file. (It will give out.gro)
+9. gmx insert-molecules -f solv_ions.gro -ci unk.gro  -replace -nmol 20 (choose SOL) and update the topol.top file. (It will give out.gro)
 10. Remember to include these two lines at the start and at the ened as
 ; Include forcefield parameters
 #include "./charmm36-feb2021.ff/forcefield.itp"
@@ -61,7 +60,7 @@ define= -DPOSRES_CRYSTAL as mentioned in the #ifdef POSRES
 You will get error to update the cordinates number of coordinates in coordinate file (out.gro, 138535),  does not match topology (topol.top, 138973) 
 Remember to substract 138973-138535 and divide it by 3. 
 
-11.gmx grompp -f em.mdp -c out.gro -r out.gro -n index.ndx -p topol.top -o em.tpr -maxwarn -1
+11.gmx grompp -f em.mdp -c out.gro -r out.gro -p topol.top -o em.tpr -maxwarn -1
 12. gmx mdrun -v -deffnm em
 
 gmx make_ndx -f unk.gro -o index_unk.ndx
