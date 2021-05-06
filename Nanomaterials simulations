@@ -1,0 +1,41 @@
+Get the CHARMM potential for the ligands using Cgenff server. Follow the previous charmm tutorial
+gmx_mpi editconf -f unk_ini.pdb -o unk.gro
+
+The files from Charmm-gui for nanomaterials named as step3_input.pdb
+#convert to gro using 
+gmx_mpi editconf -f step3_input.pdb -o step3_input.gro
+gmx_mpi insert-molecules -f step3_input.gro -ci unk.gro -replace -nmol 20 -n index.ndx
+Choose SOLV
+
+Update the topology
+Go to Charrm-gui and upload the mol2 file corrected by sort-mol.pl file.
+Use the charmm36.itp file and delete this line from the file
+[ defaults ]
+; nbfunc	comb-rule	gen-pairs	fudgeLJ	fudgeQQ
+1	2	yes	1.0	1.0
+
+place it exactly in the second line of the topology
+; Include forcefield parameters
+#include "toppar/forcefield.itp"
+#include "toppar/charmm36.itp"
+#include "toppar/NMA.itp"
+#include "toppar/POT.itp"
+#include "toppar/CLA.itp"
+#include "toppar/TIP3.itp"
+#include "toppar/unk.itp"
+
+Update the topology file for the coordinates. 
+do the calculation like topol-coordinates/3 and substract it from the TIP3 water molecules
+
+gmx_mpi grompp -f step4.0_minimization.mdp -o min.tpr -c out.gro -r out.gro -p topol.top -n index.ndx -maxwarn -1
+interactive -A snic2020-1-40 -t 1:00:00 --reservation=devel -N 2 
+mpprun gmx_mpi mdrun -v -deffnm min
+
+Equilibration: It will say that some atom number invalid. Delete it from the index file. Use min.gro file to look how many atoms are there. 
+gmx_mpi grompp -f step4.1_equilibration.mdp -o equil.tpr -c min.gro -r out.gro -p topol.top -n index.ndx -maxwarn -1
+mpprun gmx_mpi mdrun -deffnm equil
+
+Production run:
+gmx_mpi grompp -f step5_production.mdp -o md.tpr -c equil.gro -p topol.top -n index.ndx -maxwarn -1
+
+gmx_mpi mdrun -deffnm md
