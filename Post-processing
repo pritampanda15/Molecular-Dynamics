@@ -27,7 +27,7 @@ for D in ./*; do
         cd "$D"
         echo -e "1\n1" "0\n1" | gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_center.xtc -center -pbc mol -ur compact
 	echo -e "1\n1" "0\n1" | gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_noPBC.xtc -pbc mol -center
-	echo -e "1\n1" "1\n1"| gmx_mpi trjconv -f md_0_1_center.xtc -o _pro.gro -s md_0_1.tpr -sep -center -skip 1000
+	echo -e "1\n1" "1\n1"| gmx_mpi trjconv -f md_0_1_center.xtc -o _pro.pdb -s md_0_1.tpr -sep -center -skip 1000
 	echo -e "4\n1" "4\n1"gmx_mpi rms -s md_0_1.tpr -f md_0_1_noPBC.xtc -o rmsd.xvg -tu ns
         cd ..
     fi
@@ -42,7 +42,7 @@ gmx_mpi mdrun -s next.tpr -deffnm md_0_1 -append
 
 #noPBC
 gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_center.xtc -center -pbc mol -ur compact
-gmx_mpi trjconv -f md_0_1_noPBC.xtc -o _pro.gro -s md_0_1.tpr -n index.ndx -sep -center -skip 1000
+gmx_mpi trjconv -f md_0_1_noPBC.xtc -o _pro.pdb -s md_0_1.tpr -n index.ndx -sep -center -skip 1000
 gmx_mpi trjconv -s md_0_1.tpr -f md_0_1_noPBC.xtc -o start.pdb -dump 0
 gmx_mpi rms -s md_0_1.tpr -f md_0_1_noPBC.xtc -o rmsd.xvg -tu ns
 gmx_mpi rms -s em.tpr -f md_0_1_noPBC.xtc -n index.ndx -tu ns -o rmsd_unl.xvg
