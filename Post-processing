@@ -26,6 +26,7 @@ for D in ./*; do
     if [ -d "$D" ]; then
         cd "$D"
         echo -e "1\n1" "0\n1" | gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_center.xtc -center -pbc mol -ur compact
+	echo -e "1\n1" "0\n1" | gmx_mpi trjconv -s md_0_1.tpr -f md_0_1.xtc -o md_0_1_noPBC.xtc -pbc mol -center
 	echo -e "1\n1" "1\n1"| gmx_mpi trjconv -f md_0_1_center.xtc -o _pro.gro -s md_0_1.tpr -sep -center -skip 1000
 	echo -e "4\n1" "4\n1"gmx_mpi rms -s md_0_1.tpr -f md_0_1_noPBC.xtc -o rmsd.xvg -tu ns
         cd ..
