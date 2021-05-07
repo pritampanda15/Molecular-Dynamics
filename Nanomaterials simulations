@@ -50,3 +50,9 @@ Production run:
 gmx_mpi grompp -f step5_production.mdp -o md.tpr -c equil.gro -p topol.top -n index.ndx -maxwarn -1
 
 gmx_mpi mdrun -deffnm md
+
+#Postprocessing
+gmx_mpi trjconv -s md.tpr -f md.xtc -o md_0_1_center.xtc -center -pbc mol -ur compact
+choose center 1 and output 0
+1
+0
