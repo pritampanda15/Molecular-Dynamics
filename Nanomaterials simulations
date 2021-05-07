@@ -24,6 +24,17 @@ place it exactly in the second line of the topology
 #include "toppar/TIP3.itp"
 #include "toppar/unk.itp"
 
+If charmm-gui cannot process your ligand then use cgenff and update the topol.top file as:
+; Include forcefield parameters
+#include "charmm36-feb2021.ff/forcefield.itp"
+#include "toppar/forcefield.itp"
+#include "toppar/unk.prm"
+#include "toppar/NMA.itp"
+#include "toppar/POT.itp"
+#include "toppar/CLA.itp"
+#include "toppar/TIP3.itp"
+#include "toppar/unk.itp"
+
 Update the topology file for the coordinates. 
 do the calculation like topol-coordinates/3 and substract it from the TIP3 water molecules
 
