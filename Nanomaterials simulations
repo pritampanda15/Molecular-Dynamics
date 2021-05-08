@@ -56,3 +56,5 @@ gmx_mpi trjconv -s md.tpr -f md.xtc -o md_0_1_center.xtc -center -pbc mol -ur co
 choose center 1 and output 0
 1
 0
+gmx_mpi make_ndx -f md.tpr -o ind.ndx
+gmx_mpi rdf -f md_0_1_center.xtc -o rdf.xvg -n ind.ndx
