@@ -14,3 +14,10 @@ gmx_mpi anaeig -s step1_pdbreader.pdb -f md_01_noWAT.xtc -2d -first 1 -last 2
 
 gmx_mpi anaeig -s step1_pdbreader.pdb -f md_01_noWAT.xtc -3d -first 1 -last 3
 
+####Strodel tutorial: http://www.strodel.info/index_files/lecture/html/analysis-9.html###########
+
+gmx covar -f md_protein.xtc -s md_protein.tpr
+4
+4
+gmx_mpi anaeig -v eigenvec.trr -f md.xtc -eig eigenval.xvg -s md.tpr -first 1 -last 1 -nframes 100 -extr ev1.pdb
+gmx_mpi anaeig -v eigenvec.trr -f md.xtc -eig eigenval.xvg -s md.tpr -first 2 -last 2 -nframes 100 -extr ev2.pdb #for eigenvector 2
