@@ -1,0 +1,3 @@
+gmx_mpi covar -s input.pdb -f md_noPBC.xtc
+0
+0
