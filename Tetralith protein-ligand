@@ -1,0 +1,21 @@
+grep LIG tranexamixtyr.pdb > LIG.pdb
+avogadro LIG.pdb 
+perl sort.pl LIG.mol2 LIG_fix.mol2
+source scripts
+source activate my_pymatgen
+ml Python/3.7.0-anaconda-5.3.0-extras-nsc1 
+python cgenff_charmm2gmx_py3_nx2.py LIG LIG_fix.mol2 lig.str charmm36-feb2021.ff/
+ml GROMACS/2019.6-nsc1-gcc-7.3.0-bare 
+gmx_mpi pdb2gmx -f cleanactive.pdb -o protein_processed.gro -ignh
+gmx_mpi editconf -f lig_ini.pdb -o lig.gro
+gmx_mpi editconf -f complex.gro -o newbox.gro -bt cubic -d 1.0
+gmx_mpi solvate -cp newbox.gro -cs spc216.gro -p topol.top -o solv.gro
+gmx_mpi grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr
+gmx_mpi genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
+gmx_mpi grompp -f em.mdp -c solv_ions.gro -p topol.top -o em.tpr
+sbatch runem.sh 
+gmx_mpi make_ndx -f lig.gro -o index_lig.ndx
+gmx_mpi genrestr -f lig.gro -n index_lig.ndx -o posre_lig.itp -fc 1000 1000 1000
+gmx_mpi make_ndx -f em.gro -o index.ndx
+gmx_mpi grompp -f nvt.mdp -c em.gro -r em.gro -p topol.top -n index.ndx -o nvt.tpr
+sbatch run.sh
