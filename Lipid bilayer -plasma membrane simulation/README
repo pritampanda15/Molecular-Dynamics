@@ -1,0 +1,80 @@
+#!/bin/bash
+#SBATCH --time=24:00:00
+#SBATCH  -N 4
+#SBATCH -c 4
+#SBATCH --account=snic2021-1-42
+export OMP_NUM_THREADS=4
+#SBATCH -J Lipid
+#SBATCH --exclusive
+#SBATCH --ntasks-per-node=32
+#gmx_mpi convert-tpr -s md_0_1.tpr -extend 100000 -o next.tpr
+module load GROMACS/2019.6-nsc1-gcc-7.3.0-bare 
+
+#PMm (asymmetric mammalian plasma membrane)
+#Lipid composition: (show chemical structures)
+#Lipid Name  Lipid Head/Tail #Lipids in Leaflets APL(Å)  Charge(e)
+#Outer   Inner   Outer   Inner
+#POPC    PC(16:0/18:1(9Z))   16  7   56.87   57.08   0
+#PLPC    PC(16:0/18:2(9Z,12Z))   22  11  57.33   57.35   0
+#PAPE    PE(16:0/20:4(5Z,8Z,11Z,14Z))    3   12  57.6    58.41   0
+#POPE    PE(16:0/18:1(9Z))   3   14  55.07   56.59   0
+#POPI    PI(16:0/18:1(9Z))   0   5   N/A 56.78   -1
+#PAPS    PS(16:0/20:4(5Z,8Z,11Z,14Z))    0   11  N/A 58.27   -1
+#POPA    PA(16:0/18:1(9Z))   0   1   N/A 55.74   -1
+#SSM SM(d18:1/18:0)  11  5   50.09   49.65   0
+#NSM SM(d18:1/24:1)  11  5   49.5    49.92   0
+#CMH GlcCer(d18:1/16:0)  4   0   47.27   N/A -1
+#CHOL    Cholesterol 37  29  27.9    28.71   0
+#TOTAL       107 100         
+
+#Size (Å3): 75.26 x 75.26 x 122.17
+# water / Na+ / Cl- : 13544 / 54 / 37
+#Temperature (K): 310.15
+
+
+# Minimization
+gmx_mpi grompp -f step6.0_minimization.mdp -o minimization.tpr -c step5_input.gro -r step5_input.gro -p topol.top -n index.ndx
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+gmx_mpi mdrun -v -deffnm minimization 
+
+# Equilibration
+
+gmx_mpi grompp -f step6.1_equilibration.mdp -o step6.1_equilibration.tpr -c minimization.gro -r step5_input.gro -p topol.top -n index.ndx
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+        gmx_mpi mdrun -v -deffnm step6.1_equilibration
+
+gmx_mpi grompp -f step6.2_equilibration.mdp -o step6.2_equilibration.tpr -c step6.1_equilibration.gro -r step5_input.gro -p topol.top -n index.ndx
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+        gmx_mpi mdrun -v -deffnm step6.2_equilibration
+
+gmx_mpi grompp -f step6.3_equilibration.mdp -o step6.3_equilibration.tpr -c step6.2_equilibration.gro -r step5_input.gro -p topol.top -n index.ndx
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+        gmx_mpi mdrun -v -deffnm step6.3_equilibration
+
+gmx_mpi grompp -f step6.4_equilibration.mdp -o step6.4_equilibration.tpr -c step6.3_equilibration.gro -r step5_input.gro -p topol.top -n index.ndx
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+        gmx_mpi mdrun -v -deffnm step6.4_equilibration
+
+gmx_mpi grompp -f step6.5_equilibration.mdp -o step6.5_equilibration.tpr -c step6.4_equilibration.gro -r step5_input.gro -p topol.top -n index.ndx
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+        gmx_mpi mdrun -v -deffnm step6.5_equilibration
+
+gmx_mpi grompp -f step6.6_equilibration.mdp -o step6.6_equilibration.tpr -c step6.5_equilibration.gro -r step5_input.gro -p topol.top -n index.ndx
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+        gmx_mpi mdrun -v -deffnm step6.6_equilibration
+
+#Production
+
+gmx_mpi grompp -f step7_production.mdp -o md.tpr -c step6.6_equilibration.gro -p topol.top -n index.ndx
+mpprun --pass="--map-by
+ppr:$((16/OMP_NUM_THREADS)):socket:PE=${OMP_NUM_THREADS}" \
+        gmx_mpi mdrun -v -deffnm md 
+
+
