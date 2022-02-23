@@ -15,12 +15,12 @@ UNL                 1
 
 gmx_mpi editconf -f complex.gro -o newbox.gro -bt cubic -d 1.0
 gmx_mpi solvate -cp newbox.gro -cs spc216.gro -p topol.top -o solv.gro
-gmx_mpi grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr -maxwarn 2
+gmx_mpi grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr -maxwarn 2 (Name of the ligand should corresponds to the itp file)
 gmx_mpi genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
 gmx_mpi grompp -f em.mdp -c solv_ions.gro -p topol.top -o em.tpr -maxwarn 2
 
 
-interactive -A snic2020-1-40 -t 1:00:00 --reservation=devel -N 2
+interactive -A snic2021-1-42 -t 1:00:00 --reservation=devel -N 2
 
 SNIC gromacs run file for energy minimization
 #!/bin/bash
