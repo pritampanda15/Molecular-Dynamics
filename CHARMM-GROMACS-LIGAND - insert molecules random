@@ -15,6 +15,8 @@ Use python cgenff_charmm2gmx.py to convert charmm format to gromacs format in or
 cgenff_charmm2gmx.py only works with py2 and NetworkX 1.1 (Use anaconda to perform the conversion)
 Remember to copy Charmm36-feb2021.ff forcefiled folder from MacKerell website.
 
+To convert pdb to gro use command : gmx_mpi editconf -f unk_ini.pdb -o unk.gro
+
 Then perform the commands from the MD tutorials (GROMACS/2020.4). I am performing customized inputs so my commands will be different than the normal ones (for cellulose layer). 
 
 1. gmx pdb2gmx -f crystal.pdb -o processed.gro -missing -i posre.itp
@@ -29,7 +31,7 @@ Then perform the commands from the MD tutorials (GROMACS/2020.4). I am performin
 6. gmx_mpi grompp -f ions.mdp -c solv.gro -p topol.top -o ions.tpr
 7. gmx_mpi genion -s ions.tpr -o solv_ions.gro -p topol.top -pname NA -nname CL -neutral
 9. gmx_mpi insert-molecules -f solv_ions.gro -ci unk.gro  -replace -nmol 20 (choose SOL) and update the topol.top file. (It will give out.gro)
-10. Remember to include these two lines at the start and at the ened as
+10. Remember to include these two lines at the start and at the end as
 ; Include forcefield parameters
 #include "./charmm36-feb2021.ff/forcefield.itp"
 
