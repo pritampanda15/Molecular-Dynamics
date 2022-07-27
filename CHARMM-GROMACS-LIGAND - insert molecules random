@@ -12,7 +12,7 @@ GASTEIGER
 Same with .str file where RESI ***** (change to UNK/LIG/DRG)         0.000 ! param penalty=   0.000 ; charge penalty=   0.000
 
 Use python cgenff_charmm2gmx.py to convert charmm format to gromacs format in order to run simulation; python cgenff_charmm2gmx.py LIG ligand_fix.mol2 ligand.str charmm36-feb2021.ff
-cgenff_charmm2gmx.py only works with py2 and NetworkX 1.1 (Use anaconda to perform the conversion)
+cgenff_charmm2gmx.py only works with py2 and NetworkX 1.1 (Use anaconda to perform the conversion) pip install networkx==1.1 or 2.3
 Remember to copy Charmm36-feb2021.ff forcefiled folder from MacKerell website.
 
 To convert pdb to gro use command : gmx_mpi editconf -f unk_ini.pdb -o unk.gro
