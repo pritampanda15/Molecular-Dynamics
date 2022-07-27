@@ -1,4 +1,9 @@
-Download the molecule of interest from PUBCHEM or ZINC or any chemical database
+Download the molecule of interest from PUBCHEM or ZINC or any chemical database.
+Or if you have vina results then do the following:
+cut -c-66 XYZ_out_ligand_01 > ligand.pdb
+cat receptor.pdbqt ligand.pdb | grep -v '^END ' | grep -v '^END$' > complex.pdb
+
+
 Open Avogadro and save it as SYBYL mol2 format. 
 Sort the molecule with perl script; perl sort_mol2_bonds.pl ligand.mol2 ligand_fix.mol2
 Then go to CGenFF and upload your molecule.
