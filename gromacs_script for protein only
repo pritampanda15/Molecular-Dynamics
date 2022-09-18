@@ -33,6 +33,9 @@ gmx mdrun -v -deffnm nvt
 # NPT Pressure control
 gmx grompp -f npt.mdp -c nvt.gro -r nvt.gro -t nvt.cpt -p topol.top -o npt.tpr
 
+#running a crashed simulation
+gmx_mpi mdrun -s md_0_1.tpr -cpi md_0_1.cpt -deffnm md_0_1
+
 gmx mdrun -v -deffnm npt
 
 # Real MD 
