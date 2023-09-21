@@ -160,8 +160,7 @@ Customize your MD simulations by editing the `.mdp` file and adjusting simulatio
 - Here is a simple tutorial for topology file generation:
 - https://nptel.ac.in/courses/104101002/downloads/lecture-notes/module4/chapter35.pdf
 
-- Best tutorial to perform MD using gromacs:
-- http://www.jyhuang.idv.tw/JYH_MDSimulation.html
+- Best tutorial to perform MD using gromacs:http://www.jyhuang.idv.tw/JYH_MDSimulation.html
 ## Contributing
 
 Contributions to this repository are welcome! If you'd like to contribute bug fixes, enhancements, or new features, please fork the repository, make your changes, and submit a pull request. Be sure to follow the coding and contribution guidelines outlined in the repository.
