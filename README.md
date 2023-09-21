@@ -4,7 +4,7 @@ This repository provides scripts and instructions for performing Molecular Dynam
 
 ## Refer to my Youtube channel for detailed tutorial on GROMACS
 
-![GROMACS](http://url/to/img.png)
+![GROMACS](https://github.com/pritampanda15/Molecular-Dynamics/blob/master/Youtube.png)
 
 ## Table of Contents
 
