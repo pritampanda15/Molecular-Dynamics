@@ -151,16 +151,20 @@ Before running Molecular Dynamics simulations, ensure that you have the followin
 Customize your MD simulations by editing the `.mdp` file and adjusting simulation parameters. You can also modify the topology file to change the system composition or interactions. GROMACS provides extensive documentation for customizing simulations to meet your specific research needs.
 
 ## Links
-- Lipid coordinates can be downloaded from https://people.ucalgary.ca/~tieleman/download.html
+[Lipid coordinates](https://people.ucalgary.ca/~tieleman/download.html)
 
-- Nanotube generator:http://turin.nss.udel.edu/research/tubegenonline.html
+[Nanotube generator](http://turin.nss.udel.edu/research/tubegenonline.html)
 
-- Ligand topology generator:http://www.swissparam.ch/ http://davapc1.bioch.dundee.ac.uk/cgi-bin/prodrg
+[Ligand topology generator 1](http://www.swissparam.ch/)
 
-- Here is a simple tutorial for topology file generation:
-- https://nptel.ac.in/courses/104101002/downloads/lecture-notes/module4/chapter35.pdf
+[Ligand topology generator 2](http://davapc1.bioch.dundee.ac.uk/cgi-bin/prodrg)
 
-- Best tutorial to perform MD using gromacs:http://www.jyhuang.idv.tw/JYH_MDSimulation.html
+[CHARMM-GUI](https://www.charmm-gui.org/)
+
+[Topology file generation](https://nptel.ac.in/courses/104101002/downloads/lecture-notes/module4/chapter35.pdf)
+
+[Best tutorial to perform MD using gromacs](http://www.jyhuang.idv.tw/JYH_MDSimulation.html)
+
 ## Contributing
 
 Contributions to this repository are welcome! If you'd like to contribute bug fixes, enhancements, or new features, please fork the repository, make your changes, and submit a pull request. Be sure to follow the coding and contribution guidelines outlined in the repository.
