@@ -2,7 +2,7 @@
 
 This repository provides scripts and instructions for performing Molecular Dynamics (MD) simulations using GROMACS, a widely used software package for simulating the motion of atoms and molecules. MD simulations are a powerful tool for studying the behavior of biological molecules, materials, and chemical systems at the atomic level.  Molecular Dynamics is a computational technique used to simulate the motion and interactions of atoms and molecules over time. It is a powerful tool for studying the behavior of systems at the atomic and molecular scale, making it valuable in various scientific fields such as chemistry, physics, and materials science.
 
-## Refer to my ![Youtube](https://youtu.be/hc8ZXbOMEfw) channel for detailed tutorial on GROMACS 
+## Refer to my YouTube channel for detailed tutorial on GROMACS 
 
 ![GROMACS](https://github.com/pritampanda15/Molecular-Dynamics/blob/master/Youtube.png)
 
