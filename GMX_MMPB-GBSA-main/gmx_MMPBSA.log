@@ -1,0 +1,484 @@
+[INFO   ] Starting gmx_MMPBSA v1.6.3
+[DEBUG  ] WDIR          : /Users/imac/Desktop/Simulation/protein-ligand/mmpbsa
+[DEBUG  ] AMBERHOME     : /Users/imac/anaconda3/envs/mm
+[DEBUG  ] PYTHON EXE    : /Users/imac/anaconda3/envs/mm/bin/python
+[DEBUG  ] PYTHON VERSION: 3.9.19 | packaged by conda-forge | (main, Mar 20 2024, 12:53:33) [Clang 16.0.6 ]
+[DEBUG  ] MPI           : /Users/imac/anaconda3/envs/mm/bin/mpirun
+[DEBUG  ] ParmEd        : 4.2.2
+[DEBUG  ] OS PLATFORM   : macOS-13.6.9-x86_64-i386-64bit
+[DEBUG  ] OS SYSTEM     : Darwin
+[DEBUG  ] OS VERSION    : Darwin Kernel Version 22.6.0: Mon Jun 24 01:25:37 PDT 2024; root:xnu-8796.141.3.706.2~1/RELEASE_X86_64
+[DEBUG  ] OS PROCESSOR  : i386
+
+[INFO   ] Command-line
+  gmx_MMPBSA -O -i mmpbsa.in -cs md_0_100.tpr -ct md_0_100_fit.xtc -ci index.ndx -cg 1 13 -cp topol.top -o FINAL_RESULTS_MMPBSA.dat -eo FINAL_RESULTS_MMPBSA.csv
+
+[DEBUG  ] |Input file:
+[DEBUG  ] |--------------------------------------------------------------
+[DEBUG  ] |GB calculation
+[DEBUG  ] |
+[DEBUG  ] |&general
+[DEBUG  ] |sys_name="Prot-Lig",
+[DEBUG  ] |startframe=1,
+[DEBUG  ] |endframe=100,
+[DEBUG  ] |/
+[DEBUG  ] |&gb
+[DEBUG  ] |igb=5, saltcon=0.150,
+[DEBUG  ] |/--------------------------------------------------------------
+[DEBUG  ] 
+[INFO   ] Checking mmpbsa.in input file...
+[INFO   ] Checking mmpbsa.in input file...Done.
+
+[INFO   ] Checking external programs...
+[INFO   ] cpptraj found! Using /Users/imac/anaconda3/envs/mm/bin/cpptraj
+[INFO   ] tleap found! Using /Users/imac/anaconda3/envs/mm/bin/tleap
+[INFO   ] parmchk2 found! Using /Users/imac/anaconda3/envs/mm/bin/parmchk2
+[INFO   ] sander found! Using /Users/imac/anaconda3/envs/mm/bin/sander
+[INFO   ] Using GROMACS version > 5.x.x!
+[INFO   ] gmx found! Using /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx
+[INFO   ] Checking external programs...Done.
+
+[INFO   ] Building AMBER topologies from GROMACS files...
+[INFO   ] Get PDB files from GROMACS structures files...
+[INFO   ] Making gmx_MMPBSA index for complex...
+[DEBUG  ] Running command: echo "name 1 GMXMMPBSA_REC\n name 13 GMXMMPBSA_LIG\n  1 | 13\n q\n" | /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx make_ndx -n index.ndx -o _GMXMMPBSA_COM_index.ndx -f md_0_100_fit.tpr
+[DEBUG  ]                :-) GROMACS - gmx make_ndx, 2023.4-conda_forge (-:
+[DEBUG  ] 
+[DEBUG  ] Executable:   /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx
+[DEBUG  ] Data prefix:  /Users/imac/anaconda3/envs/mm
+[DEBUG  ] Working dir:  /Users/imac/Desktop/Simulation/protein-ligand/mmpbsa
+[DEBUG  ] Command line:
+[DEBUG  ]   gmx make_ndx -n index.ndx -o _GMXMMPBSA_COM_index.ndx -f md_0_100.tpr
+[DEBUG  ] 
+[DEBUG  ] 
+[DEBUG  ] Reading structure file
+[DEBUG  ] Reading file md_0_100.tpr, VERSION 2019.6 (single precision)
+[DEBUG  ] Reading file md_0_100.tpr, VERSION 2019.6 (single precision)
+[DEBUG  ] 
+[DEBUG  ] GROMACS reminds you: "What is a Unix or Linux sysadmin's favourite hangout place? Foo Bar." (Anonymous)
+[DEBUG  ] 
+[DEBUG  ] Going to read 1 old index file(s)
+[DEBUG  ] 
+[DEBUG  ]   0 System              : 69958 atoms
+[DEBUG  ]   1 Protein             :  6766 atoms
+[DEBUG  ]   2 Protein-H           :  3499 atoms
+[DEBUG  ]   3 C-alpha             :   435 atoms
+[DEBUG  ]   4 Backbone            :  1305 atoms
+[DEBUG  ]   5 MainChain           :  1739 atoms
+[DEBUG  ]   6 MainChain+Cb        :  2144 atoms
+[DEBUG  ]   7 MainChain+H         :  2146 atoms
+[DEBUG  ]   8 SideChain           :  4620 atoms
+[DEBUG  ]   9 SideChain-H         :  1760 atoms
+[DEBUG  ]  10 Prot-Masses         :  6766 atoms
+[DEBUG  ]  11 non-Protein         : 63192 atoms
+[DEBUG  ]  12 Other               :    16 atoms
+[DEBUG  ]  13 LIG                 :    16 atoms
+[DEBUG  ]  14 NA                  :    11 atoms
+[DEBUG  ]  15 Water               : 63165 atoms
+[DEBUG  ]  16 SOL                 : 63165 atoms
+[DEBUG  ]  17 non-Water           :  6793 atoms
+[DEBUG  ]  18 Ion                 :    11 atoms
+[DEBUG  ]  19 Water_and_ions      : 63176 atoms
+[DEBUG  ]  20 Protein_LIG         :  6782 atoms
+[DEBUG  ]  21 LIG_&_!H*           :    10 atoms
+[DEBUG  ]  22 System_Protein_LIG_SOL_Ion: 69958 atoms
+[DEBUG  ]  23 System              : 69958 atoms
+[DEBUG  ]  24 Protein             :  6766 atoms
+[DEBUG  ]  25 LIG                 :    16 atoms
+[DEBUG  ]  26 SOL                 : 63165 atoms
+[DEBUG  ]  27 Ion                 :    11 atoms
+[DEBUG  ] 
+[DEBUG  ]  nr : group      '!': not  'name' nr name   'splitch' nr    Enter: list groups
+[DEBUG  ]  'a': atom       '&': and  'del' nr         'splitres' nr   'l': list residues
+[DEBUG  ]  't': atom type  '|': or   'keep' nr        'splitat' nr    'h': help
+[DEBUG  ]  'r': residue              'res' nr         'chain' char
+[DEBUG  ]  "name": group             'case': case sensitive           'q': save and quit
+[DEBUG  ]  'ri': residue index
+[DEBUG  ] 
+[DEBUG  ] > 
+[DEBUG  ] 
+[DEBUG  ] > 
+[DEBUG  ] 
+[DEBUG  ] > 
+[DEBUG  ] Copied index group 1 'GMXMMPBSA_REC'
+[DEBUG  ] Copied index group 13 'GMXMMPBSA_LIG'
+[DEBUG  ] Merged two groups with OR: 6766 16 -> 6782
+[DEBUG  ] 
+[DEBUG  ] > 
+[INFO   ] Normal Complex: Saving group Protein_LIG (1_13) in _GMXMMPBSA_COM_index.ndx file as _GMXMMPBSA_COM.pdb
+[DEBUG  ] Running command: echo "GMXMMPBSA_REC_GMXMMPBSA_LIG"| /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx trjconv -f md_0_100_fit.xtc -s md_0_100.tpr -o _GMXMMPBSA_COM.pdb -n _GMXMMPBSA_COM_index.ndx -dump 0
+[DEBUG  ]                :-) GROMACS - gmx trjconv, 2023.4-conda_forge (-:
+[DEBUG  ] 
+[DEBUG  ] Executable:   /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx
+[DEBUG  ] Data prefix:  /Users/imac/anaconda3/envs/mm
+[DEBUG  ] Working dir:  /Users/imac/Desktop/Simulation/protein-ligand/mmpbsa
+[DEBUG  ] Command line:
+[DEBUG  ]   gmx trjconv -f md_0_100_fit.xtc -s md_0_100_fit.tpr -o _GMXMMPBSA_COM.pdb -n _GMXMMPBSA_COM_index.ndx -dump 0
+[DEBUG  ] 
+[DEBUG  ] Will write pdb: Protein data bank file
+[DEBUG  ] Reading file md_0_100.tpr, VERSION 2019.6 (single precision)
+[DEBUG  ] Reading file md_0_100.tpr, VERSION 2019.6 (single precision)
+[DEBUG  ] Group     0 (         System) has 69958 elements
+[DEBUG  ] Group     1 (  GMXMMPBSA_REC) has  6766 elements
+[DEBUG  ] Group     2 (      Protein-H) has  3499 elements
+[DEBUG  ] Group     3 (        C-alpha) has   435 elements
+[DEBUG  ] Group     4 (       Backbone) has  1305 elements
+[DEBUG  ] Group     5 (      MainChain) has  1739 elements
+[DEBUG  ] Group     6 (   MainChain+Cb) has  2144 elements
+[DEBUG  ] Group     7 (    MainChain+H) has  2146 elements
+[DEBUG  ] Group     8 (      SideChain) has  4620 elements
+[DEBUG  ] Group     9 (    SideChain-H) has  1760 elements
+[DEBUG  ] Group    10 (    Prot-Masses) has  6766 elements
+[DEBUG  ] Group    11 (    non-Protein) has 63192 elements
+[DEBUG  ] Group    12 (          Other) has    16 elements
+[DEBUG  ] Group    13 (  GMXMMPBSA_LIG) has    16 elements
+[DEBUG  ] Group    14 (             NA) has    11 elements
+[DEBUG  ] Group    15 (          Water) has 63165 elements
+[DEBUG  ] Group    16 (            SOL) has 63165 elements
+[DEBUG  ] Group    17 (      non-Water) has  6793 elements
+[DEBUG  ] Group    18 (            Ion) has    11 elements
+[DEBUG  ] Group    19 ( Water_and_ions) has 63176 elements
+[DEBUG  ] Group    20 (    Protein_LIG) has  6782 elements
+[DEBUG  ] Group    21 (      LIG_&_!H*) has    10 elements
+[DEBUG  ] Group    22 (System_Protein_LIG_SOL_Ion) has 69958 elements
+[DEBUG  ] Group    23 (         System) has 69958 elements
+[DEBUG  ] Group    24 (        Protein) has  6766 elements
+[DEBUG  ] Group    25 (            LIG) has    16 elements
+[DEBUG  ] Group    26 (            SOL) has 63165 elements
+[DEBUG  ] Group    27 (            Ion) has    11 elements
+[DEBUG  ] Group    28 (GMXMMPBSA_REC_GMXMMPBSA_LIG) has  6782 elements
+[DEBUG  ] Select a group: 
+Reading frame       0 time    0.000   
+[DEBUG  ] Precision of md_0_100_fit.xtc is 0.001 (nm)
+[DEBUG  ] 
+Reading frame       1 time  100.000   
+[DEBUG  ] Dumping frame at t= 0 ps
+[DEBUG  ] Last written: frame      0 time    0.000
+[DEBUG  ] 
+[DEBUG  ] 
+[DEBUG  ] GROMACS reminds you: "What is a Unix or Linux sysadmin's favourite hangout place? Foo Bar." (Anonymous)
+[DEBUG  ] 
+[DEBUG  ] Note that major changes are planned in future for trjconv, to improve usability and utility.
+[DEBUG  ] Select group for output
+[DEBUG  ] Selected 28: 'GMXMMPBSA_REC_GMXMMPBSA_LIG'
+[INFO   ] No receptor structure file was defined. Using ST approach...
+[INFO   ] Using receptor structure from complex to generate AMBER topology
+[INFO   ] Normal Receptor: Saving group Protein (1) in _GMXMMPBSA_COM_index.ndx file as _GMXMMPBSA_REC.pdb
+[DEBUG  ] Running command: echo "1"| /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx trjconv -f md_0_100_fit.xtc -s md_0_100.tpr -o _GMXMMPBSA_REC.pdb -n _GMXMMPBSA_COM_index.ndx -dump 0
+[DEBUG  ]                :-) GROMACS - gmx trjconv, 2023.4-conda_forge (-:
+[DEBUG  ] 
+[DEBUG  ] Executable:   /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx
+[DEBUG  ] Data prefix:  /Users/imac/anaconda3/envs/mm
+[DEBUG  ] Working dir:  /Users/imac/Desktop/Simulation/protein-ligand/mmpbsa
+[DEBUG  ] Command line:
+[DEBUG  ]   gmx trjconv -f md_0_100_fit.xtc -s md_0_100.tpr -o _GMXMMPBSA_REC.pdb -n _GMXMMPBSA_COM_index.ndx -dump 0
+[DEBUG  ] 
+[DEBUG  ] Will write pdb: Protein data bank file
+[DEBUG  ] Reading file md_0_100.tpr, VERSION 2019.6 (single precision)
+[DEBUG  ] Reading file md_0_100.tpr, VERSION 2019.6 (single precision)
+[DEBUG  ] Group     0 (         System) has 69958 elements
+[DEBUG  ] Group     1 (  GMXMMPBSA_REC) has  6766 elements
+[DEBUG  ] Group     2 (      Protein-H) has  3499 elements
+[DEBUG  ] Group     3 (        C-alpha) has   435 elements
+[DEBUG  ] Group     4 (       Backbone) has  1305 elements
+[DEBUG  ] Group     5 (      MainChain) has  1739 elements
+[DEBUG  ] Group     6 (   MainChain+Cb) has  2144 elements
+[DEBUG  ] Group     7 (    MainChain+H) has  2146 elements
+[DEBUG  ] Group     8 (      SideChain) has  4620 elements
+[DEBUG  ] Group     9 (    SideChain-H) has  1760 elements
+[DEBUG  ] Group    10 (    Prot-Masses) has  6766 elements
+[DEBUG  ] Group    11 (    non-Protein) has 63192 elements
+[DEBUG  ] Group    12 (          Other) has    16 elements
+[DEBUG  ] Group    13 (  GMXMMPBSA_LIG) has    16 elements
+[DEBUG  ] Group    14 (             NA) has    11 elements
+[DEBUG  ] Group    15 (          Water) has 63165 elements
+[DEBUG  ] Group    16 (            SOL) has 63165 elements
+[DEBUG  ] Group    17 (      non-Water) has  6793 elements
+[DEBUG  ] Group    18 (            Ion) has    11 elements
+[DEBUG  ] Group    19 ( Water_and_ions) has 63176 elements
+[DEBUG  ] Group    20 (    Protein_LIG) has  6782 elements
+[DEBUG  ] Group    21 (      LIG_&_!H*) has    10 elements
+[DEBUG  ] Group    22 (System_Protein_LIG_SOL_Ion) has 69958 elements
+[DEBUG  ] Group    23 (         System) has 69958 elements
+[DEBUG  ] Group    24 (        Protein) has  6766 elements
+[DEBUG  ] Group    25 (            LIG) has    16 elements
+[DEBUG  ] Group    26 (            SOL) has 63165 elements
+[DEBUG  ] Group    27 (            Ion) has    11 elements
+[DEBUG  ] Group    28 (GMXMMPBSA_REC_GMXMMPBSA_LIG) has  6782 elements
+[DEBUG  ] Select a group: 
+Reading frame       0 time    0.000   
+[DEBUG  ] Precision of md_0_100_fit.xtc is 0.001 (nm)
+[DEBUG  ] 
+Reading frame       1 time  100.000   
+[DEBUG  ] Dumping frame at t= 0 ps
+[DEBUG  ] Last written: frame      0 time    0.000
+[DEBUG  ] 
+[DEBUG  ] 
+[DEBUG  ] GROMACS reminds you: "What is a Unix or Linux sysadmin's favourite hangout place? Foo Bar." (Anonymous)
+[DEBUG  ] 
+[DEBUG  ] Note that major changes are planned in future for trjconv, to improve usability and utility.
+[DEBUG  ] Select group for output
+[DEBUG  ] Selected 1: 'GMXMMPBSA_REC'
+[INFO   ] No ligand structure file was defined. Using ST approach...
+[INFO   ] Using ligand structure from complex to generate AMBER topology
+[INFO   ] Normal Ligand: Saving group LIG (13) in _GMXMMPBSA_COM_index.ndx file as _GMXMMPBSA_LIG.pdb
+[DEBUG  ] Running command: echo "13"| /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx trjconv -f md_0_100_fit.xtc -s md_0_100.tpr -o _GMXMMPBSA_LIG.pdb -n _GMXMMPBSA_COM_index.ndx -dump 0
+[DEBUG  ]                :-) GROMACS - gmx trjconv, 2023.4-conda_forge (-:
+[DEBUG  ] 
+[DEBUG  ] Executable:   /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx
+[DEBUG  ] Data prefix:  /Users/imac/anaconda3/envs/mm
+[DEBUG  ] Working dir:  /Users/imac/Desktop/Simulation/protein-ligand/mmpbsa
+[DEBUG  ] Command line:
+[DEBUG  ]   gmx trjconv -f md_0_100_fit.xtc -s md_0_100.tpr -o _GMXMMPBSA_LIG.pdb -n _GMXMMPBSA_COM_index.ndx -dump 0
+[DEBUG  ] 
+[DEBUG  ] Will write pdb: Protein data bank file
+[DEBUG  ] Reading file md_0_100.tpr, VERSION 2019.6 (single precision)
+[DEBUG  ] Reading file md_0_100.tpr, VERSION 2019.6 (single precision)
+[DEBUG  ] Group     0 (         System) has 69958 elements
+[DEBUG  ] Group     1 (  GMXMMPBSA_REC) has  6766 elements
+[DEBUG  ] Group     2 (      Protein-H) has  3499 elements
+[DEBUG  ] Group     3 (        C-alpha) has   435 elements
+[DEBUG  ] Group     4 (       Backbone) has  1305 elements
+[DEBUG  ] Group     5 (      MainChain) has  1739 elements
+[DEBUG  ] Group     6 (   MainChain+Cb) has  2144 elements
+[DEBUG  ] Group     7 (    MainChain+H) has  2146 elements
+[DEBUG  ] Group     8 (      SideChain) has  4620 elements
+[DEBUG  ] Group     9 (    SideChain-H) has  1760 elements
+[DEBUG  ] Group    10 (    Prot-Masses) has  6766 elements
+[DEBUG  ] Group    11 (    non-Protein) has 63192 elements
+[DEBUG  ] Group    12 (          Other) has    16 elements
+[DEBUG  ] Group    13 (  GMXMMPBSA_LIG) has    16 elements
+[DEBUG  ] Group    14 (             NA) has    11 elements
+[DEBUG  ] Group    15 (          Water) has 63165 elements
+[DEBUG  ] Group    16 (            SOL) has 63165 elements
+[DEBUG  ] Group    17 (      non-Water) has  6793 elements
+[DEBUG  ] Group    18 (            Ion) has    11 elements
+[DEBUG  ] Group    19 ( Water_and_ions) has 63176 elements
+[DEBUG  ] Group    20 (    Protein_LIG) has  6782 elements
+[DEBUG  ] Group    21 (      LIG_&_!H*) has    10 elements
+[DEBUG  ] Group    22 (System_Protein_LIG_SOL_Ion) has 69958 elements
+[DEBUG  ] Group    23 (         System) has 69958 elements
+[DEBUG  ] Group    24 (        Protein) has  6766 elements
+[DEBUG  ] Group    25 (            LIG) has    16 elements
+[DEBUG  ] Group    26 (            SOL) has 63165 elements
+[DEBUG  ] Group    27 (            Ion) has    11 elements
+[DEBUG  ] Group    28 (GMXMMPBSA_REC_GMXMMPBSA_LIG) has  6782 elements
+[DEBUG  ] Select a group: 
+Reading frame       0 time    0.000   
+[DEBUG  ] Precision of md_0_100_fit.xtc is 0.001 (nm)
+[DEBUG  ] 
+Reading frame       1 time  100.000   
+[DEBUG  ] Dumping frame at t= 0 ps
+[DEBUG  ] Last written: frame      0 time    0.000
+[DEBUG  ] 
+[DEBUG  ] 
+[DEBUG  ] GROMACS reminds you: "What is a Unix or Linux sysadmin's favourite hangout place? Foo Bar." (Anonymous)
+[DEBUG  ] 
+[DEBUG  ] Note that major changes are planned in future for trjconv, to improve usability and utility.
+[DEBUG  ] Select group for output
+[DEBUG  ] Selected 13: 'GMXMMPBSA_LIG'
+[INFO   ] Checking the structures consistency...
+[INFO   ] 
+[INFO   ] Using topology conversion. Setting radiopt = 0...
+[INFO   ] Building Normal Complex Amber topology...
+[INFO   ] Detected CHARMM force field topology format...
+[INFO   ] Assigning PBRadii mbondi2 to Complex...
+[INFO   ] Writing Normal Complex AMBER topology...
+[INFO   ] No Receptor topology file was defined. Using ST approach...
+[INFO   ] Building AMBER Receptor topology from Complex...
+[INFO   ] Assigning PBRadii mbondi2 to Receptor...
+[INFO   ] Writing Normal Receptor AMBER topology...
+[INFO   ] No Ligand topology file was defined. Using ST approach...
+[INFO   ] Building AMBER Ligand topology from Complex...
+[INFO   ] Assigning PBRadii mbondi2 to Ligand...
+[INFO   ] Writing Normal Ligand AMBER topology...
+[INFO   ] Cleaning normal complex trajectories...
+[DEBUG  ] Running command: echo "GMXMMPBSA_REC_GMXMMPBSA_LIG"| /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx trjconv -f md_0_100_fit.xtc -s md_0_100.tpr -o COM_traj_0.xtc -n _GMXMMPBSA_COM_index.ndx
+[DEBUG  ]                :-) GROMACS - gmx trjconv, 2023.4-conda_forge (-:
+[DEBUG  ] 
+[DEBUG  ] Executable:   /Users/imac/anaconda3/envs/mm/bin.AVX2_256/gmx
+[DEBUG  ] Data prefix:  /Users/imac/anaconda3/envs/mm
+[DEBUG  ] Working dir:  /Users/imac/Desktop/Simulation/protein-ligand/mmpbsa
+[DEBUG  ] Command line:
+[DEBUG  ]   gmx trjconv -f md_0_100_fit.xtc -s md_0_100.tpr -o COM_traj_0.xtc -n _GMXMMPBSA_COM_index.ndx
+[DEBUG  ] 
+[DEBUG  ] Will write xtc: Compressed trajectory (portable xdr format): xtc
+[DEBUG  ] Reading file md_0_100.tpr, VERSION 2019.6 (single precision)
+[DEBUG  ] Reading file md_0_100.tpr, VERSION 2019.6 (single precision)
+[DEBUG  ] Group     0 (         System) has 69958 elements
+[DEBUG  ] Group     1 (  GMXMMPBSA_REC) has  6766 elements
+[DEBUG  ] Group     2 (      Protein-H) has  3499 elements
+[DEBUG  ] Group     3 (        C-alpha) has   435 elements
+[DEBUG  ] Group     4 (       Backbone) has  1305 elements
+[DEBUG  ] Group     5 (      MainChain) has  1739 elements
+[DEBUG  ] Group     6 (   MainChain+Cb) has  2144 elements
+[DEBUG  ] Group     7 (    MainChain+H) has  2146 elements
+[DEBUG  ] Group     8 (      SideChain) has  4620 elements
+[DEBUG  ] Group     9 (    SideChain-H) has  1760 elements
+[DEBUG  ] Group    10 (    Prot-Masses) has  6766 elements
+[DEBUG  ] Group    11 (    non-Protein) has 63192 elements
+[DEBUG  ] Group    12 (          Other) has    16 elements
+[DEBUG  ] Group    13 (  GMXMMPBSA_LIG) has    16 elements
+[DEBUG  ] Group    14 (             NA) has    11 elements
+[DEBUG  ] Group    15 (          Water) has 63165 elements
+[DEBUG  ] Group    16 (            SOL) has 63165 elements
+[DEBUG  ] Group    17 (      non-Water) has  6793 elements
+[DEBUG  ] Group    18 (            Ion) has    11 elements
+[DEBUG  ] Group    19 ( Water_and_ions) has 63176 elements
+[DEBUG  ] Group    20 (    Protein_LIG) has  6782 elements
+[DEBUG  ] Group    21 (      LIG_&_!H*) has    10 elements
+[DEBUG  ] Group    22 (System_Protein_LIG_SOL_Ion) has 69958 elements
+[DEBUG  ] Group    23 (         System) has 69958 elements
+[DEBUG  ] Group    24 (        Protein) has  6766 elements
+[DEBUG  ] Group    25 (            LIG) has    16 elements
+[DEBUG  ] Group    26 (            SOL) has 63165 elements
+[DEBUG  ] Group    27 (            Ion) has    11 elements
+[DEBUG  ] Group    28 (GMXMMPBSA_REC_GMXMMPBSA_LIG) has  6782 elements
+[DEBUG  ] Select a group: 
+Reading frame       0 time    0.000   
+[DEBUG  ] Precision of md_0_100_fit.xtc is 0.001 (nm)
+[DEBUG  ] Using output precision of 0.001 (nm)
+[DEBUG  ] 
+Reading frame       1 time  100.000    ->  frame      0 time    0.000      
+
+Reading frame       2 time  200.000    ->  frame      1 time  100.000      
+
+Reading frame       3 time  300.000    ->  frame      2 time  200.000      
+
+Reading frame       4 time  400.000    ->  frame      3 time  300.000      
+
+Reading frame       5 time  500.000    ->  frame      4 time  400.000      
+
+Reading frame       6 time  600.000    ->  frame      5 time  500.000      
+
+Reading frame       7 time  700.000    ->  frame      6 time  600.000      
+
+Reading frame       8 time  800.000    ->  frame      7 time  700.000      
+
+Reading frame       9 time  900.000    ->  frame      8 time  800.000      
+
+Reading frame      10 time 1000.000    ->  frame      9 time  900.000      
+
+Reading frame      11 time 1100.000    ->  frame     10 time 1000.000      
+
+Reading frame      12 time 1200.000    ->  frame     11 time 1100.000      
+
+Reading frame      13 time 1300.000    ->  frame     12 time 1200.000      
+
+Reading frame      14 time 1400.000    ->  frame     13 time 1300.000      
+
+Reading frame      15 time 1500.000    ->  frame     14 time 1400.000      
+
+Reading frame      16 time 1600.000    ->  frame     15 time 1500.000      
+
+Reading frame      17 time 1700.000    ->  frame     16 time 1600.000      
+
+Reading frame      18 time 1800.000    ->  frame     17 time 1700.000      
+
+Reading frame      19 time 1900.000    ->  frame     18 time 1800.000      
+
+Reading frame      20 time 2000.000    ->  frame     19 time 1900.000      
+
+Reading frame      30 time 3000.000    ->  frame     29 time 2900.000      
+
+Reading frame      40 time 4000.000    ->  frame     39 time 3900.000      
+
+Reading frame      50 time 5000.000    ->  frame     49 time 4900.000      
+
+Reading frame      60 time 6000.000    ->  frame     59 time 5900.000      
+
+Reading frame      70 time 7000.000    ->  frame     69 time 6900.000      
+
+Reading frame      80 time 8000.000    ->  frame     79 time 7900.000      
+
+Reading frame      90 time 9000.000    ->  frame     89 time 8900.000      
+
+Reading frame     100 time 10000.000    ->  frame     99 time 9900.000      
+
+Reading frame     110 time 11000.000    ->  frame    109 time 10900.000      
+
+Reading frame     120 time 12000.000    ->  frame    119 time 11900.000      
+
+Reading frame     130 time 13000.000    ->  frame    129 time 12900.000      
+
+Reading frame     140 time 14000.000    ->  frame    139 time 13900.000      
+
+Reading frame     150 time 15000.000    ->  frame    149 time 14900.000      
+
+Reading frame     160 time 16000.000    ->  frame    159 time 15900.000      
+
+Reading frame     170 time 17000.000    ->  frame    169 time 16900.000      
+
+Reading frame     180 time 18000.000    ->  frame    179 time 17900.000      
+
+Reading frame     190 time 19000.000    ->  frame    189 time 18900.000      
+
+Reading frame     200 time 20000.000    ->  frame    199 time 19900.000      
+
+Reading frame     300 time 30000.000    ->  frame    299 time 29900.000      
+
+Reading frame     400 time 40000.000    ->  frame    399 time 39900.000      
+
+Reading frame     500 time 50000.000    ->  frame    499 time 49900.000      
+
+Reading frame     600 time 60000.000    ->  frame    599 time 59900.000      
+
+Reading frame     700 time 70000.000    ->  frame    699 time 69900.000      
+
+Reading frame     800 time 80000.000    ->  frame    799 time 79900.000      
+
+Reading frame     900 time 90000.000    ->  frame    899 time 89900.000      
+
+Reading frame    1000 time 100000.000    ->  frame    999 time 99900.000      
+
+Last frame       1000 time 100000.000   
+[DEBUG  ] Last written: frame   1000 time 100000.000
+[DEBUG  ] 
+[DEBUG  ] 
+[DEBUG  ] GROMACS reminds you: "What do you want out of life?" (Jack Kerouac, On The Road)
+[DEBUG  ] 
+[DEBUG  ] Note that major changes are planned in future for trjconv, to improve usability and utility.
+[DEBUG  ] Select group for output
+[DEBUG  ] Selected 28: 'GMXMMPBSA_REC_GMXMMPBSA_LIG'
+[INFO   ] Building AMBER topologies from GROMACS files... Done.
+
+[INFO   ] Loading and checking parameter files for compatibility...
+[INFO   ] Preparing trajectories for simulation...
+
+[INFO   ] 100 frames were processed by cpptraj for use in calculation.
+[INFO   ] Starting calculations in 1 CPUs...
+[INFO   ] Running calculations on normal system...
+[INFO   ] Beginning GB calculations with /Users/imac/anaconda3/envs/mm/bin/sander
+[INFO   ]   calculating complex contribution...
+[INFO   ]   calculating receptor contribution...
+[INFO   ]   calculating ligand contribution...
+[INFO   ] Parsing results to output files...
+
+[INFO   ] Timing:
+[INFO   ] Total GROMACS setup time:                   0.283 min.
+[INFO   ] Total AMBER setup time:                     0.023 min.
+[INFO   ] Creating trajectories with cpptraj:         0.020 min.
+[INFO   ] Total calculation time:                    10.680 min.
+[INFO   ] Total GB calculation time:                 10.617 min.
+[INFO   ] Statistics calculation & output writing:    0.001 min.
+[INFO   ] Total time taken:                          11.007 min.
+
+[INFO   ] 
+   Finalizing gmx_MMPBSA: [ERROR  ] = 0; [WARNING] = 0
+   Check the gmx_MMPBSA.log file for more details...
+
+[INFO   ] 
+ Thank you for using gmx_MMPBSA. Please consider supporting gmx_MMPBSA by citing our publication:
+    Valdés-Tresanco, M.S., Valdés-Tresanco, M.E., Valiente, P.A. and Moreno E. 
+    gmx_MMPBSA: A New Tool to Perform End-State Free Energy Calculations with GROMACS. 
+    J Chem Theory Comput., 2021, 17 (10):6281-6291. Epub 2021 Sep 29. PMID: 34586825.
+    https://pubs.acs.org/doi/10.1021/acs.jctc.1c00645
+
+Also consider citing MMPBSA.py:
+    Miller III, B. R., McGee Jr., T. D., Swails, J. M. Homeyer, N. Gohlke, H. and Roitberg, A. E.
+    MMPBSA.py: An Efficient Program for End-State Free Energy Calculations.
+    J. Chem. Theory Comput., 2012, 8 (9) pp 3314-3321
+
+[INFO   ] Opening gmx_MMPBSA_ana to analyze results...
+
+[INFO   ] Finalized...
