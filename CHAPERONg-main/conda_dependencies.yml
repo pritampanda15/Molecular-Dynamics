@@ -1,0 +1,33 @@
+name: chaperong
+
+dependencies:
+  - main::python=3.8
+# - anaconda::networkx=2.3
+  - conda-forge::pymol-open-source=2.5.0
+  - conda-forge::imagemagick
+  - conda-forge::wxpython
+  - conda-forge::ffmpeg
+  - conda-forge::pycairo
+  - pip
+  - pip:
+    - numpy==1.23.4 # or 1.23.4>=numpy>=1.19.
+    - scipy==1.10.1 # Tested 1.10.0, 1.10.1. Better to use scipy>1.6.3 when numpy>1.23.0
+    - pandas
+# numpy>1.19 is required by matplotlib for certain python3/matplotlib/scipy versions
+# Although numpy 1.18.5 & 1.23.4 both worked with python 3.8.10, 3.8.13, 3.8.15, 3.8.16
+    - matplotlib # tested versions: 3.6.1, 3.6.2, 3.6.3
+    # - pycairo
+    - networkx==2.3
+    # - networkx==2.5 # if nextworkx==2.3 fails, try networkx==2.5
+    - biopandas
+    - biopython
+    - click
+    - h5py>=3.0
+    - mdtraj
+    - plotly>=4.0
+    - scikit-learn
+    - toml
+    - pmw
+    - psutil              # required by plotly for png
+    - openpyxl            # Required by pandas
+    - md-davis
