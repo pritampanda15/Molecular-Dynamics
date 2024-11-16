@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="/MMPBSA.png" title="hover text">
+  <img src="https://github.com/pritampanda15/Molecular-Dynamics/blob/master/GMX_MMPB-GBSA-main/MMPBSA.png" title="hover text">
 </p>
 
 YouTube Link: <br>
