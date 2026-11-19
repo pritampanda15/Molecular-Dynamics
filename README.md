@@ -1,164 +1,118 @@
 # Molecular Dynamics with GROMACS
 
-This repository provides scripts and instructions for performing Molecular Dynamics (MD) simulations using **GROMACS**, a widely used software package for simulating atomic and molecular behavior. MD simulations allow for detailed exploration of biological molecules, materials, and chemical systems at the atomic level.
+A curated collection of ready-to-use scripts, SLURM templates, input bundles, and step-by-step guides for running and analyzing **Molecular Dynamics (MD)** simulations with **GROMACS** (plus a **LAMMPS** nanomaterial builder and **CHAPERON*g*** automation).
 
-![GROMACS](https://github.com/pritampanda15/Molecular-Dynamics/blob/master/Youtube.png)
+![GROMACS YouTube Tutorials](assets/Youtube.png)
 
-## YouTube Tutorial Playlist
-
-For a comprehensive guide, please refer to my [YouTube playlist on Molecular Dynamics with GROMACS](https://www.youtube.com/playlist?list=PLS3KFDv2o0CQIvkKuL7kU2rfowWIfHFFN).
+> **Video Tutorials:** Follow the complete [YouTube Playlist on Molecular Dynamics with GROMACS](https://www.youtube.com/playlist?list=PLS3KFDv2o0CQIvkKuL7kU2rfowWIfHFFN).
 
 ---
 
-## Table of Contents
+## Repository Map
 
-- [Introduction](#introduction)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-  - [Preparing Input Files](#preparing-input-files)
-  - [Running Simulations](#running-simulations)
-  - [Analyzing Results](#analyzing-results)
-- [Customization](#customization)
-- [Links](#links)
-- [Contributing](#contributing)
-- [License](#license)
+```text
+Molecular-Dynamics/
+├── workflows/                 # Simulation setup guides, run scripts & input bundles
+│   ├── protein-only/          #   Protein-in-water GROMACS script
+│   ├── protein-ligand/        #   GROMOS96 (ATB/PRODRG) & CHARMM36 (CGenFF) guides
+│   ├── lipid-bilayer/         #   Asymmetric plasma membrane inputs + SLURM & InflateGRO
+│   └── nanomaterials/         #   CHARMM-GUI nanomaterial MD + LAMMPS fluid-on-layer builder
+├── hpc/                       # Reusable SLURM job templates, batch scripts & NVIDIA GPU guide
+│   └── nvidia-gpu/            #   NGC GROMACS container, GPU offload, multi-GPU, MPS & MIG
+├── analysis/                  # Trajectory post-processing & downstream analysis
+│   ├── post-processing/       #   PBC removal, centering, RMSD, snapshots, extending runs
+│   ├── pca-fel-entropy/       #   Windowed PCA, Free Energy Landscape (FEL), entropy & slides
+│   └── mmpbsa-gbsa/           #   gmx_MMPBSA input, Conda env, slides & example results
+├── tools/                     # Bundled third-party automation tools
+│   └── CHAPERONg/             #   CHAPERONg automated GROMACS pipeline
+├── docs/                      # Reference Word/PDF protocols
+└── assets/                    # Repository images
+```
 
 ---
 
-## Introduction
+## Quick Script & Guide Finder
 
-Molecular Dynamics (MD) with GROMACS enables you to model atomic interactions in different environments, such as solvated biomolecules or solid-state materials. This README provides step-by-step instructions for setting up and running MD simulations using GROMACS.
+Looking for a specific task? Jump straight to the file you need:
+
+| What do you want to do? | Where to go | Type |
+| :--- | :--- | :--- |
+| Run a **protein-only** GROMACS simulation locally | [`workflows/protein-only/run_protein_md.sh`](workflows/protein-only/run_protein_md.sh) | Bash script |
+| Run a **protein-only** simulation on a **SLURM** cluster | [`hpc/slurm_protein_md.sh`](hpc/slurm_protein_md.sh) | SLURM script |
+| Simulate a **protein–ligand** complex (GROMOS96 / ATB) | [`workflows/protein-ligand/gromos_protein_ligand_guide.md`](workflows/protein-ligand/gromos_protein_ligand_guide.md) | Guide |
+| Simulate a **protein–ligand** complex (CHARMM36 / CGenFF on Tetralith) | [`workflows/protein-ligand/charmm_tetralith_guide.md`](workflows/protein-ligand/charmm_tetralith_guide.md) | Guide |
+| Randomly **insert multiple ligands** into a solvated system | [`workflows/protein-ligand/charmm_random_ligand_insertion.md`](workflows/protein-ligand/charmm_random_ligand_insertion.md) | Guide |
+| Run a **CHARMM-GUI** equilibration + production pipeline on SLURM | [`hpc/slurm_charmm_gui.csh`](hpc/slurm_charmm_gui.csh) | SLURM script |
+| Run GROMACS with **NVIDIA NGC container**, full **GPU offload**, or **MPS/MIG** | [`hpc/nvidia-gpu/README.md`](hpc/nvidia-gpu/README.md) ([NGC runner](hpc/nvidia-gpu/run_ngc_gromacs.sh), [MPS runner](hpc/nvidia-gpu/run_mps_multidir.sh)) | Guide + Bash |
+| Simulate an **asymmetric mammalian plasma membrane** | [`workflows/lipid-bilayer/`](workflows/lipid-bilayer/) | Inputs + SLURM |
+| Embed a protein in a membrane with **InflateGRO** | [`workflows/lipid-bilayer/inflategro_membrane_protein.md`](workflows/lipid-bilayer/inflategro_membrane_protein.md) | Guide |
+| Run **nanomaterial + ligand** MD in GROMACS | [`workflows/nanomaterials/charmm_nanomaterials_guide.md`](workflows/nanomaterials/charmm_nanomaterials_guide.md) | Guide |
+| Build a **2D substrate + graphene + fluid** LAMMPS `system.data` | [`workflows/nanomaterials/build_fluid_on_layer.py`](workflows/nanomaterials/build_fluid_on_layer.py) ([notebook](workflows/nanomaterials/build_fluid_on_layer.ipynb)) | Python / Colab |
+| Fix PBC, center, compute RMSD, extract frames, or extend runs | [`analysis/post-processing/README.md`](analysis/post-processing/README.md) | Cheat sheet |
+| **Batch post-process** multiple simulation folders at once | [`hpc/batch_postprocess.sh`](hpc/batch_postprocess.sh) | Bash script |
+| Run windowed **PCA & Free Energy Landscape (FEL)** analysis | [`analysis/pca-fel-entropy/run_pca_fel_windows.sh`](analysis/pca-fel-entropy/run_pca_fel_windows.sh) | Bash script |
+| Compute **PCA & quasi-harmonic entropy** | [`analysis/pca-fel-entropy/README.md`](analysis/pca-fel-entropy/README.md) | Guide + Slides |
+| Compute **MM-PBSA / MM-GBSA** binding free energy (`gmx_MMPBSA`) | [`analysis/mmpbsa-gbsa/README.md`](analysis/mmpbsa-gbsa/README.md) | Config + Env |
+| Automate GROMACS MD & analysis with **CHAPERON*g*** | [`tools/CHAPERONg/README.md`](tools/CHAPERONg/README.md) | Bundled tool |
+| Read printable **Word / PDF protocols** | [`docs/README.md`](docs/README.md) | Docs |
+
+---
 
 ## Getting Started
 
 ### Prerequisites
 
-- **GROMACS**: Install GROMACS following the [official instructions](http://www.gromacs.org/Downloads).
-- **Input Files**: You’ll need coordinate files (PDB or GRO format), force field parameters, and a simulation topology file (`.top`).
-- **Topology File**: Prepare a `.top` file specifying molecule types and interactions in your system.
+- **GROMACS** (2019.2+ recommended for CHARMM-GUI inputs): see the [official installation guide](https://manual.gromacs.org/current/install-guide/index.html).
+- **Python (optional, for analysis & nanomaterial building):**
+  ```bash
+  pip install numpy scipy matplotlib mdanalysis ase
+  ```
+- **Conda (optional, for `gmx_MMPBSA` or `CHAPERONg`):** see [`analysis/mmpbsa-gbsa/env.yml`](analysis/mmpbsa-gbsa/env.yml) and [`tools/CHAPERONg/conda_dependencies.yml`](tools/CHAPERONg/conda_dependencies.yml).
 
-### Installation
-
-Clone this repository to get started:
+### Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/molecular-dynamics-gromacs.git
-cd molecular-dynamics-gromacs
+git clone https://github.com/pritampanda15/Molecular-Dynamics.git
+cd Molecular-Dynamics
 ```
 
-Ensure that GROMACS is installed and accessible in your system's PATH.
+### Quick GROMACS Reference
 
----
-
-## Usage
-
-### Preparing Input Files
-
-1. **Coordinate File**: Contains atom positions in PDB or GRO format.
-2. **Topology File**: Describes molecules and force field parameters.
-3. **Parameter Files**: Any additional `.itp` force field files for specific molecules.
-4. **Simulation Parameters**: Set up the `.mdp` file with parameters like time step, temperature control, and simulation duration.
-
-### Running Simulations
-
-1. **Edit `.mdp` File**: Customize the `.mdp` file with your desired simulation parameters.
-2. **Generate a TPR File**: Create a GROMACS binary run input file (TPR):
-
+1. **Generate run input (`.tpr`):**
    ```bash
-   gmx grompp -f simulation.mdp -c initial.gro -p system.top -o simulation.tpr
+   gmx grompp -f simulation.mdp -c initial.gro -p topol.top -o simulation.tpr
    ```
-
-3. **Run Simulation**: Use `gmx mdrun` to start the simulation:
-
+2. **Run MD simulation:**
    ```bash
    gmx mdrun -v -deffnm simulation
    ```
-
-4. **Monitor Progress**: Check the log files to track simulation progress and address any issues.
-
-### Analyzing Results
-
-Use GROMACS analysis tools to extract and visualize simulation data:
-
-- **Trajectory Visualization**: Use `gmx trjconv` for trajectory file conversions.
-- **Data Analysis**: Compute properties like temperature, pressure, and radial distribution functions (RDF).
-- **Plotting**: Visualize simulation results with your preferred plotting tools.
+3. **Simulation length cheat sheet** (with a `2 fs` integration time step):
+   - `1 ns` = `500,000` steps
+   - `10 ns` = `5,000,000` steps
+   - `100 ns` = `50,000,000` steps
 
 ---
 
-## Simulation Parameters
+## Useful External Resources
 
-Customize these key parameters in the `.mdp` file:
-
-- **Temperature & Pressure Control**: Select an appropriate thermostat and barostat.
-- **Time Step**: Use an integration time step suitable for your system’s dynamics.
-- **Force Field**: Choose a force field that accurately describes your system’s interactions.
-- **Boundary Conditions**: Define simulation cell boundaries (e.g., periodic boundary conditions).
-- **Simulation Length**: Adjust simulation duration based on system needs.
-
-> **Step Conversion**:
-> - 1 ns = 500,000 steps
-> - 10 ns = 5,000,000 steps
-> - 100 ns = 50,000,000 steps
-
----
-
-## Python Requirements
-
-Make sure Python is installed with essential libraries for MD simulations:
-
-```bash
-pip install numpy scipy mdanalysis
-```
-
-Alternatively, use conda:
-
-```bash
-conda install numpy scipy mdanalysis
-```
-
----
-
-## Customization
-
-To adjust simulation settings:
-
-1. Modify the `.mdp` file for simulation-specific requirements.
-2. Edit the topology file to add or remove molecular components.
-3. Refer to [GROMACS documentation](http://www.gromacs.org/) for detailed customization options.
-
----
-
-## Links
-
-- [YouTube channel](https://youtu.be/hc8ZXbOMEfw)
-- [Lipid Coordinates](https://people.ucalgary.ca/~tieleman/download.html)
-- [Nanotube Generator](http://turin.nss.udel.edu/research/tubegenonline.html)
-- [Ligand Topology Generator 1](http://www.swissparam.ch/)
+- [YouTube Channel](https://youtu.be/hc8ZXbOMEfw) & [GROMACS MD Playlist](https://www.youtube.com/playlist?list=PLS3KFDv2o0CQIvkKuL7kU2rfowWIfHFFN)
+- [GROMACS Official Documentation](https://manual.gromacs.org/)
+- [NVIDIA NGC GROMACS Container](https://catalog.ngc.nvidia.com/orgs/hpc/-/containers/gromacs/-?_lr=1)
+- [NVIDIA Blog: Creating Faster MD Simulations with GROMACS 2020](https://developer.nvidia.com/blog/creating-faster-molecular-dynamics-simulations-with-gromacs-2020/)
+- [NVIDIA Blog: Maximizing GROMACS Throughput with MPS and MIG](https://developer.nvidia.com/blog/maximizing-gromacs-throughput-with-multiple-simulations-per-gpu-using-mps-and-mig/)
 - [CHARMM-GUI](https://www.charmm-gui.org/)
-- [Topology File Generation](https://nptel.ac.in/courses/104101002/downloads/lecture-notes/module4/chapter35.pdf)
+- [SwissParam (Ligand Topology Generator)](http://www.swissparam.ch/)
+- [Tieleman Lipid Coordinates](https://people.ucalgary.ca/~tieleman/download.html)
+- [Nanotube Generator (TubeGen)](http://turin.nss.udel.edu/research/tubegenonline.html)
+- [NPTEL Topology File Generation Notes](https://nptel.ac.in/courses/104101002/downloads/lecture-notes/module4/chapter35.pdf)
 - [MD Tutorial with GROMACS](http://www.jyhuang.idv.tw/JYH_MDSimulation.html)
 
 ---
 
 ## Contributing
 
-Contributions are welcome! To contribute:
+Contributions, bug fixes, and additional MD scripts are welcome!
 
-1. Fork the repository and create a new branch.
-2. Make your modifications.
-3. Submit a pull request with a description of your changes.
-
-Refer to the contribution guidelines for detailed information.
-
----
-
-## License
-
-This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this code for research and academic purposes.
-
----
-
-Thank you for using this Molecular Dynamics with GROMACS repository! Feel free to reach out with questions or open an issue for any problems. **Happy Simulating!**
+1. Fork the repository and create a feature branch.
+2. Add your script or guide in the appropriate directory (`workflows/`, `hpc/`, or `analysis/`) and update its folder `README.md`.
+3. Open a pull request describing your changes.

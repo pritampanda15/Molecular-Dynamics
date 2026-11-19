@@ -1,0 +1,15 @@
+# macOS / OS metadata
+.DS_Store
+Thumbs.db
+
+# GROMACS backup and temporary files
+\#*\#
+*.swp
+*~
+
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
